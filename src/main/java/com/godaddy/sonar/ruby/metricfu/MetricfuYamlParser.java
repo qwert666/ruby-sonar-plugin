@@ -89,14 +89,16 @@ public class MetricfuYamlParser implements BatchExtension {
 		List<CaneViolation> violations = new ArrayList<CaneViolation>();
 		if (caneViolations != null) {
 			ArrayList<Map<String, Object>> caneViolationsComplexityResult = (ArrayList<Map<String, Object>>) caneViolations.get(":abc_complexity");
-			for (Map<String, Object> caneViolationsLineResultRow : caneViolationsComplexityResult) {
-				String file = (String)caneViolationsLineResultRow.get(":file");
-				if (file.length() > 0 && file.contains(filename)) {
-					CaneComplexityViolation violation = new CaneComplexityViolation();
-					violation.setFile(file);
-					violation.setMethod((String)caneViolationsLineResultRow.get(":method"));
-					violation.setComplexity(Integer.parseInt((String)caneViolationsLineResultRow.get(":complexity")));
-					violations.add(violation);
+			if (caneViolationsComplexityResult != null) {
+				for (Map<String, Object> caneViolationsLineResultRow : caneViolationsComplexityResult) {
+					String file = (String)caneViolationsLineResultRow.get(":file");
+					if (file.length() > 0 && file.contains(filename)) {
+						CaneComplexityViolation violation = new CaneComplexityViolation();
+						violation.setFile(file);
+						violation.setMethod((String)caneViolationsLineResultRow.get(":method"));
+						violation.setComplexity(Integer.parseInt((String)caneViolationsLineResultRow.get(":complexity")));
+						violations.add(violation);
+					}
 				}
 			}
 
